@@ -10,6 +10,8 @@ class Server {
     constructor() {
         this.app = express();
         this.port = process.env.PORT;
+
+        // Paths
         this.usersRoutesPath = "/api/users";
         this.authPath = '/api/auth';
 

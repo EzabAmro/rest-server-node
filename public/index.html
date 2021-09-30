@@ -5,9 +5,71 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/main.css">
-    <title>Access denied</title>
+    <title>Google Sign-in</title>
 </head>
 <body>
-    <h1 id="h1">ACCESS DENIED</h1>
+    <h1 id="h1">Google Sign-in</h1>
+    <hr>
+
+    <div id="g_id_onload"
+         data-client_id="879960072653-4qjpltnb434ag3hmpbr0jcl86he5dm9b.apps.googleusercontent.com"
+         data-auto_prompt="false"
+         data-callback="handleCredentialResponse">
+    </div>
+    <div class="g_id_signin"
+        data-type="standard"
+        data-size="large"
+        data-theme="outline"
+        data-text="sign_in_with"
+        data-shape="rectangular"
+        data-logo_alignment="left">
+    </div>
+
+    <button id="googleSignout">
+        Sign Out
+    </button>
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script>
+        function handleCredentialResponse(response) {
+            // Google token - ID_TOKEN
+            //console.log('Id token', response.credential);
+
+            const body = {id_token: response.credential}
+
+            fetch(
+                "http://localhost:3070/api/auth/google",
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                }
+            )
+            .then(resp => resp.json())
+            .then(resp => console.log(resp))
+            .catch(error => console.warn);
+
+        }
+
+        const signOutButton = document.getElementById('googleSignout');
+
+        signOutButton.onclick = () => {
+            google.accounts.id.disableAutoSelect();
+            
+            google.accounts.id.revoke(
+                localStorage.getItem('email'),
+                (done) => {
+                    localStorage.clear();
+                    location.reload();
+                }
+                );
+                
+            console.log(google.accounts.id);
+        }
+
+      </script>
+
 </body>
 </html>

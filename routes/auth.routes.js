@@ -6,7 +6,8 @@ const {
     validateFields
 } = require('../middlewares/validate-fields');
 const {
-    login
+    login,
+    googleSignIn
 } = require('../controllers/auth.controller');
 
 
@@ -22,12 +23,10 @@ router.post('/login', [
 ], login);
 
 
-
-
-
-
-
-
+router.post('/google', [
+    check('id_token', 'Google token id is required').not().isEmpty(),
+    validateFields
+], googleSignIn);
 
 
 

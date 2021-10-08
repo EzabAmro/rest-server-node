@@ -88,8 +88,8 @@ const googleSignIn = async(req = request, res = response) => {
         if (!user.state) {
             return res.status(401).json(
                 {
-                    ok: true,
-                    msg: 'User deleted or inactive'
+                    ok: false,
+                    msg: 'User deleted or inactive, Communicate with the server administrator'
                 }
             );
         }

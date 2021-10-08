@@ -26,7 +26,7 @@ const {
     existEmail,
     notExistEmail,
     existUser
-} = require('../helpers/db-validators');
+} = require('../helpers/db-validators-user');
 
 /* 
 router.app.get('/hello-world', (req, res) => {

@@ -26,16 +26,8 @@ router.post('/login', [
 router.post('/google', [
     check('id_token', 'Google token id is required').not().isEmpty(),
     validateFields
-], googleSignIn);
+], googleSignIn);    
 
 
 
 module.exports = router;
-
-
-
-
-
-
-
-

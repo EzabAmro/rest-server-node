@@ -4,6 +4,7 @@ const cors = require('cors');
 const {
     dbConnection
 } = require('../database/config');
+const fileUpload = require("express-fileupload");
 
 class Server {
 
@@ -17,7 +18,8 @@ class Server {
             users: "/api/users",
             categories: "/api/categories",
             products: "/api/products",
-            searchs: "/api/searchs"
+            searchs: "/api/searchs",
+            uploads: "/api/uploads"
         };/* 
         this.usersRoutesPath = "/api/users";
         this.categoriesRoutesPath = "/api/categories";
@@ -39,6 +41,7 @@ class Server {
         this.app.use(this.paths.categories, require("../routes/categories.routes"));
         this.app.use(this.paths.products, require("../routes/products.routes"));
         this.app.use(this.paths.searchs, require("../routes/searchs.routes"));
+        this.app.use(this.paths.uploads, require("../routes/uploads.routes"))
     }
     
     startListener() {
@@ -57,6 +60,16 @@ class Server {
 
         // public directory use to load 404 not found page
         this.app.use(express.static('public'));
+
+        // Middleware to managing the fileupload (Permita acpetar archivos desde una peticion rest)
+        this.app.use(fileUpload(
+            {
+                useTempFiles: true,
+                tempFileDir: "/tmp/",
+                // Allow create new directories at the momento of upload a new file 
+                createParentPath: true
+            }
+        ));
     }
 
     async connectDB() {

@@ -81,12 +81,20 @@ const updateImage = async(req = request, res = response) => {
         if (fs.existsSync(pathImage)) fs.unlinkSync(pathImage);
     }
 
-
-    model.image = await loadFile(
-        req.files,
-        validExtensions,
-        collection
-    );    
+    try {
+        model.image = await loadFile(
+            req.files,
+            validExtensions,
+            collection
+        );    
+    } catch (error) {
+        return res.status(400).json(
+            {
+                ok: false,
+                error
+            }
+        );
+    }
     await model.save();
 
     res.json(

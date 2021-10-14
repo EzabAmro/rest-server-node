@@ -24,7 +24,7 @@ const loadFile = (files, validExtensions, folder = "") => {
         const uploadPath = path.join(__dirname, "../uploads/", folder, nameFile);
 
         file.mv(uploadPath, (error) => {
-            if (error) reject(error);
+            if (error) return reject(error);
             resolve(nameFile);
         });
     });

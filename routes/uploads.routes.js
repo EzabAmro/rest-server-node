@@ -8,7 +8,7 @@ const {
     responseImage,
     updateImageCloudinary
 } = require("../controllers/uploads.controller");
-const { isValidCollection } = require("../helpers/db-validator");
+const { isValidCollection, isValidExtensionFile} = require("../helpers/db-validator");
 const { validateFileUploaded } = require("../middlewares/validate-file");
 
 const router = Router();
@@ -28,6 +28,7 @@ router.put("/:collection/:id", [
 router.get("/:collection/:id", [
     check("id", "Not is a valid ID").isMongoId(),
     check("collection").custom(c => isValidCollection(c, ["users", "products"])),
+    check("file").custom(isValidExtensionFile),
     validateFields
 ], responseImage);
 

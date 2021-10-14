@@ -146,6 +146,15 @@ const updateImageCloudinary = async(req = request, res = response) => {
         await cloudinary.uploader.destroy(idImage);
     }
 
+    const cutFileName = file.name.split(".");
+    const extensionFile = cutFileName[cutFileName.length - 1];
+    if (!validExtensions.includes(extensionFile)) return res.status(400).json(
+        {
+            ok: false,
+            msg: `Invalid type of the extension ${extensionFile}, valid extensions: ${validExtensions}`
+        }
+    );
+
     const {tempFilePath} = req.files.file;
     const {secure_url} = await cloudinary.uploader.upload(tempFilePath);
 
